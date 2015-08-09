@@ -77,7 +77,7 @@ function truncate(name, charLength){
 
  app.runResults = function(etsyResult) {
  	if (etsyResult.length === 0) {
- 		var giphy = $("<img>").attr("src", "http://i.giphy.com/lrNS45C9Df904.gif").addClass("giphy");
+ 		var giphy = $("<img title='For Miguel'>").attr("src", "http://i.giphy.com/lrNS45C9Df904.gif").addClass("giphy animated jello");
  		var none = $("<h3>").text("Oops, your keywords do not return any results for your city. Try making your query more general. Or maybe it's just not your day? These things happen.");
  		$(".results-container").append(none.addClass("oops"), giphy);
  		$(".nav-controls").addClass("hide");
@@ -86,12 +86,13 @@ function truncate(name, charLength){
 	//Define variables for API call stuff.
 		var masterItem = etsyResult[i];
 		var image = masterItem.MainImage.url_fullxfull;
-		var name = $('<h3>').text(truncate(masterItem.title, 45));
+		var name = $('<h3>').text(truncate(masterItem.title, 50));
 		var price = $("<p>").text('$' + masterItem.price);
 		var description = $('<p>').addClass('etsy-description').text(truncate(masterItem.description, 350));
 		console.log(masterItem);
 		var link = masterItem.url;
-		etsyLink = $("<a target='_blank'>").attr('href', link).text('Buy on Etsy');
+		var imageLink = $("<a target='_blank'>").attr('href', link);
+		var etsyLink = $("<a target='_blank'>").attr('href', link).text('Buy on Etsy');
 		var makeDiv = $("<div>").addClass("priceBuy");
 		var descriptionContainer = $("<div>").addClass("descriptionContainer");
 		var itemImage = $('<div>').addClass('img-responsive');
@@ -99,7 +100,7 @@ function truncate(name, charLength){
 		var titleContainer = $('<div>').addClass("title-container");
 		var $etsyContainer = $('<div>').addClass("etsy-container");
 		
-		$etsyContainer.append(itemImage, titleContainer.append(name), descriptionContainer.append(description), makeDiv.append(price, etsyLink) ).fadeIn(1000);
+		$etsyContainer.append(imageLink.append(itemImage), titleContainer.append(name), descriptionContainer.append(description), makeDiv.append(price, etsyLink) ).fadeIn(1000);
 	$(".results-container").append($etsyContainer);
 	}
 };
@@ -108,6 +109,7 @@ function truncate(name, charLength){
 $(".show-more").on("click", function(){
 	app.offset += 1;
 	app.offsetMultiplier = app.offset * 12;
+	//If you change the offset multiplier, be sure to change the number of results in the API call above.
 	app.ajaxCall();
 });
 
@@ -117,10 +119,4 @@ $(function(){
 	app.init();
 });
 
-
-
-
-
-
-
-
+$('.backToTop').smoothScroll();
